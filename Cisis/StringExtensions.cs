@@ -85,10 +85,10 @@ namespace Cisis
         
         #region substring as ReadOnlySpan<char>
         public static ReadOnlySpan<char> SubstringSpan(this string s, int startIndex)
-            => s.AsSpan(startIndex);
+            => s?.AsSpan(startIndex) ?? throw new ArgumentNullException(nameof(s));
 
         public static ReadOnlySpan<char> SubstringSpan(this string s, int startIndex, int length)
-            => s.AsSpan(startIndex, length);
+            => s?.AsSpan(startIndex, length) ?? throw new ArgumentNullException(nameof(s));
         #endregion
         
         #region Encoding support
