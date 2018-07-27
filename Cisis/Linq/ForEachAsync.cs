@@ -13,7 +13,7 @@ namespace Cisis.Linq
         {
             source.ThrowIfArgumentNull(nameof(source));
             asyncAction.ThrowIfArgumentNull(nameof(asyncAction));
-            concurrency.ThrowIfArgumentOutOfRange(1, int.MinValue, nameof(concurrency));
+            concurrency.ThrowIfArgumentOutOfRange(1, int.MaxValue, nameof(concurrency));
 
             int throwedCount = 0;
 
