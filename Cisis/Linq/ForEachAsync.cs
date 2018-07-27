@@ -9,32 +9,42 @@ namespace Cisis.Linq
 {
     public static class LinqEx
     {
-        public static async Task ForEachAsync<T>(this IEnumerable<T> source, Func<T, Task> asyncAction, int concurrency, CancellationToken cancellationToken = default)
+        /// <summary>
+        /// Perform the specified async action on each element
+        /// of the <see cref="List{T}"/> with the specified concurrency.
+        /// </summary>
+        public static Task ForEachAsync<T>(this IEnumerable<T> source, Func<T, Task> asyncAction, int concurrency,
+            CancellationToken cancellationToken = default)
         {
             source.ThrowIfArgumentNull(nameof(source));
             asyncAction.ThrowIfArgumentNull(nameof(asyncAction));
             concurrency.ThrowIfArgumentOutOfRange(1, int.MaxValue, nameof(concurrency));
 
-            int throwedCount = 0;
-
-            void OnFault(Exception e)
+            async Task ForEachInner()
             {
-                Interlocked.Add(ref throwedCount, 1);
-                throw e;
-            }
+                int throwedCount = 0;
 
-            using (var tasks = new TaskSet(concurrency, OnFault))
-            {
-                foreach (var x in source)
+                void OnFault(Exception e)
                 {
-                    if (throwedCount > 0) break;
-                    cancellationToken.ThrowIfCancellationRequested();
-
-                    await tasks.AddAsync(x, asyncAction);
+                    Interlocked.Add(ref throwedCount, 1);
+                    throw e;
                 }
 
-                await tasks.WhenAll();
+                using (var tasks = new TaskSet(concurrency, OnFault))
+                {
+                    foreach (var x in source)
+                    {
+                        if (throwedCount > 0) break;
+                        cancellationToken.ThrowIfCancellationRequested();
+
+                        await tasks.AddAsync(x, asyncAction).ConfigureAwait(false);
+                    }
+
+                    await tasks.WhenAll().ConfigureAwait(false);
+                }
             }
+
+            return ForEachInner();
         }
 
         private sealed class TaskSet : IDisposable
@@ -43,13 +53,13 @@ namespace Cisis.Linq
             private readonly ConcurrentStack<int> _unusedIndexes;
             private readonly Action<Exception> _faultedAction;
             private readonly SemaphoreSlim _semaphore;
-            
+
             public TaskSet(int concurrency, Action<Exception> faulted)
             {
                 _tasks = new Task[concurrency];
                 _unusedIndexes = new ConcurrentStack<int>(Enumerable.Range(0, concurrency));
                 _faultedAction = faulted;
-                _semaphore = new SemaphoreSlim(0, concurrency);
+                _semaphore = new SemaphoreSlim(concurrency, concurrency);
             }
 
             public async Task AddAsync<T>(T arg, Func<T, Task> asyncAction)
@@ -71,7 +81,7 @@ namespace Cisis.Linq
                 _tasks[index] = task;
             }
 
-            public Task WhenAll() => Task.WhenAll(_tasks);
+            public Task WhenAll() => Task.WhenAll(_tasks.Where(t => t != null));
 
             void IDisposable.Dispose() => _semaphore.Dispose();
         }
