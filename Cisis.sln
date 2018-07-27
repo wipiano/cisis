@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cisis", "Cisis\Cisis.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cisis.Test", "Cisis.Test\Cisis.Test.csproj", "{B8D5CF37-DAB6-4AC4-AE71-05B39BBDB7E5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playground", "Playground\Playground.csproj", "{2A699952-2171-433E-984B-DD2160D6E2B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{B8D5CF37-DAB6-4AC4-AE71-05B39BBDB7E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8D5CF37-DAB6-4AC4-AE71-05B39BBDB7E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8D5CF37-DAB6-4AC4-AE71-05B39BBDB7E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A699952-2171-433E-984B-DD2160D6E2B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A699952-2171-433E-984B-DD2160D6E2B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A699952-2171-433E-984B-DD2160D6E2B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A699952-2171-433E-984B-DD2160D6E2B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
