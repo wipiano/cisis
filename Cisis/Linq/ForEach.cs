@@ -5,6 +5,9 @@ namespace Cisis.Linq
 {
     public static class LinqExtensions
     {
+        /// <summary>
+        /// Perform the specified action on each element of the <see cref="List{T}"/>
+        /// </summary>
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
         {
             source.ThrowIfArgumentNull(nameof(source));
