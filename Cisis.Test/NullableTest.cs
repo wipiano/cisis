@@ -12,5 +12,13 @@ namespace Cisis.Test
             nullable.TryGetValue(out int value).Is(expectedReturn);
             value.Is(expectedValue);
         }
+
+        [Fact]
+        public void AsNullableTest()
+        {
+            var nullable = 1.AsNullable();
+            nullable.HasValue.IsTrue();
+            nullable.Value.Is(1);
+        }
     }
 }

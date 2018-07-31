@@ -12,5 +12,12 @@ namespace Cisis
             value = nullable ?? default;
             return nullable.HasValue;
         }
+
+        /// <summary>
+        /// wrap value as <see cref="Nullable{T}"/>
+        /// </summary>
+        public static T? AsNullable<T>(this T value)
+            where T : struct
+            => value;
     }
 }
