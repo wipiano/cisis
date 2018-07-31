@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Cisis.Linq
 {
-    public static class LinqEx
+    public static partial class LinqExtensions
     {
         /// <summary>
         /// Perform the specified async action on each element

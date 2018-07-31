@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Cisis.Linq
 {
-    public static class LinqExtensions
+    public static partial class LinqExtensions
     {
         /// <summary>
         /// Perform the specified action on each element of the <see cref="List{T}"/>
