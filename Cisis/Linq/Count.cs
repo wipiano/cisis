@@ -138,7 +138,7 @@ namespace Cisis.Linq
 
             if (source.CountIfPossible().TryGetValue(out var c))
             {
-                return c >= value;
+                return c == value;
             }
 
             int count = 0;

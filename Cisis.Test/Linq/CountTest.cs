@@ -54,5 +54,15 @@ namespace Cisis.Test.Linq
             Range(0, sourceLength).CountGe(minLength).Is(expected);
             new int[sourceLength].CountGe(minLength).Is(expected);
         }
+        
+        [Theory]
+        [InlineData(1, 2, false)]
+        [InlineData(2, 2, true)]
+        [InlineData(3, 2, false)]
+        public void CountEqTest(int sourceLength, int expectedLength, bool expected)
+        {
+            Range(0, sourceLength).CountEq(expectedLength).Is(expected);
+            new int[sourceLength].CountEq(expectedLength).Is(expected);
+        }
     }
 }
